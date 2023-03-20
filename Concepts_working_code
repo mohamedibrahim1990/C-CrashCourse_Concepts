@@ -1,0 +1,55 @@
+#include <iostream>
+#include <type_traits>
+#include <cstdio>
+#include <cstdint>
+#include <concepts>
+constexpr const char* as_str(bool x){return x? "True": "False";}
+template<typename T>
+T square(T value){
+    return value * value;
+}
+
+template <class T>
+concept integral = std::is_integral_v<T>;
+
+
+
+template<typename T>
+concept Averageable = std::is_default_constructible<T>::value && requires(T a, T b){
+        a += b;
+        a /size_t{1};
+};
+
+template<Averageable T>
+T mean(T* values, size_t length){
+    T result{};
+    for(size_t i{}; i < length; i++){
+        result +=values[i];
+    }
+    return result/length;
+}
+
+int main(){
+    std::cout << std::is_void<void>::value <<  std::endl;
+    printf("%s\n", as_str(std::is_integral<int>::value));
+    printf("%s\n", as_str(std::is_integral<const int>::value));
+    printf("%s\n", as_str(std::is_integral<char>::value));
+    printf("%s\n", as_str(std::is_integral<uint64_t>::value));
+    printf("%s\n", as_str(std::is_integral<int&>::value));
+    printf("%s\n", as_str(std::is_integral<int*>::value));
+    printf("%s\n", as_str(std::is_integral<float>::value));
+
+    /*const double nums_d[] { 1.0f, 2.0f, 3.0f, 4.0f };
+    const auto result1 = mean(nums_d, 4);
+    printf("double: %f\n", result1);
+    const float nums_f[] { 1.0, 2.0, 3.0, 4.0 };
+    const auto result2 = mean(nums_f, 4);
+    printf("float: %f\n", result2);
+    const size_t nums_c[] { 1, 2, 3, 4 };
+    const auto result3 = mean(nums_c, 4);
+    printf("size_t: %d\n", result3);*/
+    
+    //char my_char{'Q'};
+    //auto result = square(&my_char);
+    
+}
